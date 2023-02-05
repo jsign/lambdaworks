@@ -60,9 +60,5 @@ pub trait HasFieldOperations: Debug {
 }
 
 pub trait SizedField {
-    type BaseType;
-
-    fn and(a: &Self::BaseType, mask: usize) -> usize;
-
     fn num_bits() -> usize;
 }

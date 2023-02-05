@@ -1,4 +1,4 @@
-use std::ops::Shr;
+use std::ops::{BitAnd, Shr};
 
 use thiserror::Error;
 
@@ -39,8 +39,9 @@ impl Pippenger {
 impl<F, G> MSM<F, G> for Pippenger
 where
     G: IsCyclicBilinearGroup,
-    F: HasFieldOperations + SizedField<BaseType = <F as HasFieldOperations>::BaseType>,
-    <F as HasFieldOperations>::BaseType: Shr<usize, Output = <F as HasFieldOperations>::BaseType>, // TODO(jsign): remove `as`
+    F: HasFieldOperations + SizedField,
+    F::BaseType: Shr<usize, Output = F::BaseType>,
+    F::BaseType: BitAnd<usize, Output = usize>,
 {
     fn msm(&self, ks: &[FieldElement<F>], ps: &[G]) -> G {
         assert_eq!(

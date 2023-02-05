@@ -152,23 +152,25 @@ where
 
 impl<F> BitAnd<usize> for &FieldElement<F>
 where
-    F: HasFieldOperations + SizedField<BaseType = <F as HasFieldOperations>::BaseType>,
+    F: HasFieldOperations,
+    F::BaseType: BitAnd<usize, Output = usize>,
 {
     type Output = usize;
 
-    fn bitand(self, mask: usize) -> Self::Output {
-        F::and(&self.value, mask)
+    fn bitand(self, mask: usize) -> usize {
+        self.value.clone() & mask
     }
 }
 
 impl<F> BitAnd<usize> for FieldElement<F>
 where
-    F: HasFieldOperations + SizedField<BaseType = <F as HasFieldOperations>::BaseType>,
+    F: HasFieldOperations,
+    F::BaseType: BitAnd<usize, Output = usize>,
 {
     type Output = usize;
 
     fn bitand(self, mask: usize) -> usize {
-        F::and(&self.value, mask)
+        self.value & mask
     }
 }
 
